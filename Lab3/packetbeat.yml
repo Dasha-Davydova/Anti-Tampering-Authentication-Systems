@@ -1,0 +1,20 @@
+packetbeat.interfaces.device: any
+
+packetbeat.flows:
+  timeout: 30s
+  period: 10s
+
+packetbeat.protocols.http:
+  ports: [80, 5601, 9200, 8080, 8081, 5000, 8002]
+
+processors:
+- add_cloud_metadata: ~
+
+output.elasticsearch:
+  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+  username: '${ELASTICSEARCH_USERNAME:}'
+  password: '${ELASTICSEARCH_PASSWORD:}'
+  ssl:
+    certificate_authorities: "/usr/share/elasticsearch/config/certs/ca/ca.crt"
+    certificate: "/usr/share/elasticsearch/config/certs/packetbeat/packetbeat.crt"
+    key: "/usr/share/elasticsearch/config/certs/packetbeat/packetbeat.key"
